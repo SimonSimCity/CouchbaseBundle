@@ -1,0 +1,22 @@
+{
+    "name": "simonsimcity/couchbase-bundle",
+    "type": "symfony-bundle",
+    "description": "Makes it easier to handle couchbases design-documents in symfony2",
+    "keywords": ["couchbase", "design document"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Simon Schick",
+            "email": "simonsimcity@gmail.com"
+        }
+    ],
+    "require": {
+        "php-couchbase": "*",
+        "symfony/framework-bundle": "~2.1"
+    },
+    "autoload": {
+        "psr-0": { "SimonSimCity\\CouchbaseBundle": "" }
+    },
+    "minimum-stability": "dev",
+    "target-dir": "SimonSimCity/CouchbaseBundle"
+}
