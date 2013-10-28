@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "php-couchbase": "*",
+        "ext-couchbase": "*",
         "symfony/framework-bundle": "~2.1"
     },
     "autoload": {
