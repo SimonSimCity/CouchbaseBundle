@@ -10,6 +10,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ImportDdocCommand extends ContainerAwareCommand
 {
+    /**
+     * @var \Couchbase
+     */
+    private $couchbase;
+
     protected function configure()
     {
         $this
@@ -29,28 +34,40 @@ class ImportDdocCommand extends ContainerAwareCommand
         $path = $this->getContainer()->getParameter('kernel.root_dir') . DIRECTORY_SEPARATOR
             . $input->getArgument("path");
 
-        $couchbase = $this->getContainer()->get("couchbase");
-        /** @var \Couchbase $couchbase */
+        $this->couchbase = $this->getContainer()->get("couchbase");
+
         try {
             $iterator = new \DirectoryIterator($path);
-            /** @var \SplFileInfo $fileInfo */
-            foreach ($iterator as $fileInfo) {
-                if ($fileInfo->isFile() && $fileInfo->getExtension() === "ddoc") {
+            $this->importDDocsInFolder($iterator, $output);
 
-                    $res = $couchbase->setDesignDoc(
-                        $fileInfo->getBasename(".ddoc"),
-                        file_get_contents($fileInfo->getRealPath())
-                    );
-
-                    if ($res === true)
-                        $output->writeln("<info>Created: ".$fileInfo->getBasename(".ddoc") . "</info>");
-                    else
-                        $output->writeln("<comment>Not created: ".$fileInfo->getBasename(".ddoc") . "</comment>");
-                }
+            $envPath = $path . $this->getContainer()->get('kernel')->getEnvironment() . DIRECTORY_SEPARATOR;
+            if (is_dir($envPath)) {
+                $iterator = new \DirectoryIterator($envPath);
+                $this->importDDocsInFolder($iterator, $output);
             }
+
         } catch(\CouchbaseException $e) {
             $output->writeln("<error>An error occurred while writing data to couchbase:</error>");
             $output->writeln("<error>{$e->getMessage()}</error>");
+        }
+    }
+
+    private function importDDocsInFolder(\DirectoryIterator $iterator, OutputInterface $output)
+    {
+        /** @var \SplFileInfo $fileInfo */
+        foreach ($iterator as $fileInfo) {
+            if ($fileInfo->isFile() && $fileInfo->getExtension() === "ddoc") {
+
+                $res = $this->couchbase->setDesignDoc(
+                    $fileInfo->getBasename(".ddoc"),
+                    file_get_contents($fileInfo->getRealPath())
+                );
+
+                if ($res === true)
+                    $output->writeln("<info>Created: ".$fileInfo->getBasename(".ddoc") . "</info>");
+                else
+                    $output->writeln("<comment>Not created: ".$fileInfo->getBasename(".ddoc") . "</comment>");
+            }
         }
     }
 }
