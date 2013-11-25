@@ -21,11 +21,11 @@ More to come ...
 In order to use the command couchbase:import-docs, you first have to create a view called _get_all_docs_ in a document
 called _sf2_couchbase_bundle_ whose map-function looks just like this:
 
-´´´
-function (doc, meta) {
-  emit(meta.id, null);
-}
-´´´
+
+    function (doc, meta) {
+      emit(meta.id, null);
+    }
+
 
 **Example**
 
