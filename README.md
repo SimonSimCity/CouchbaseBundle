@@ -9,11 +9,23 @@ After installing this bundle, you'll see two new methods in your symfony console
 
 * couchbase:export-ddoc - to export design-documents, stored in your couchbase-cluster, to files
 * couchbase:import-ddoc - to import design-documents, saved as file, into your couchbase-bucket
+* couchbase:import-docs - to import couchbase documents, saved as file, into your couchbase-bucket
 
 When importing documents from the filesystem to the database, it additionally checks if the folder, you defined, also
 contains a folder having the same name as your environment. If found, the documents in there are imported as well.
 
 More to come ...
+
+**Installation**
+
+In order to use the command couchbase:import-docs, you first have to create a view called _get_all_docs_ in a document
+called _sf2_couchbase_bundle_ whose map-function looks just like this:
+
+´´´
+function (doc, meta) {
+  emit(meta.id, null);
+}
+´´´
 
 **Example**
 
