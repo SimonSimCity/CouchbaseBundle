@@ -13,7 +13,7 @@
     </parameters>
 
     <services>
-        <service id="couchbase" class="Couchbase">
+        <service id="couchbase" class="Couchbase" lazy="true">
             <argument>%couchbase.host%</argument>
             <argument>%couchbase.username%</argument>
             <argument>%couchbase.password%</argument>
