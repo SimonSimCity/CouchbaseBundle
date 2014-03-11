@@ -24,5 +24,9 @@ class SimonsimcityCouchbaseExtension extends Extension
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
+
+        if ($config['profiler_enabled']) {
+            $loader->load('services_profiler_enabled.xml');
+        }
     }
 }
