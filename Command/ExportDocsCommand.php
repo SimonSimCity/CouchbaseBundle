@@ -16,6 +16,12 @@ class ExportDocsCommand extends ContainerAwareCommand
             ->setName("couchbase:export-docs")
             ->setDescription("Export documents found in your bucket to a directory")
             ->addArgument(
+                "connection",
+                InputArgument::REQUIRED,
+                "The couchbase-connection this change should be applied to.",
+                null
+            )
+            ->addArgument(
                 "path",
                 InputArgument::OPTIONAL,
                 "Where will your documents (*.json) be located (relative to %kernel.root_dir%)?",
@@ -29,7 +35,7 @@ class ExportDocsCommand extends ContainerAwareCommand
         $path = $this->getContainer()->getParameter('kernel.root_dir') . DIRECTORY_SEPARATOR
             . $input->getArgument("path");
 
-        $couchbase = $this->getContainer()->get("couchbase");
+        $couchbase = $this->getContainer()->get("couchbase.{$input->getArgument('connection')}");
 
         $res = $couchbase->view("sf2_couchbase_bundle", "get_all_docs", array("stale" => false));
 

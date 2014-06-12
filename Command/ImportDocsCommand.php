@@ -16,6 +16,12 @@ class ImportDocsCommand extends ContainerAwareCommand
             ->setName("couchbase:import-docs")
             ->setDescription("Import documents found in a directory into your bucket")
             ->addArgument(
+                "connection",
+                InputArgument::REQUIRED,
+                "The couchbase-connection this change should be applied to.",
+                null
+            )
+            ->addArgument(
                 "path",
                 InputArgument::OPTIONAL,
                 "Where are your documents (*.json) located (relative to %kernel.root_dir%)?",
@@ -29,7 +35,7 @@ class ImportDocsCommand extends ContainerAwareCommand
         $path = $this->getContainer()->getParameter('kernel.root_dir') . DIRECTORY_SEPARATOR
             . $input->getArgument("path");
 
-        $couchbase = $this->getContainer()->get("couchbase");
+        $couchbase = $this->getContainer()->get("couchbase.{$input->getArgument('connection')}");
 
         $res = $couchbase->view("sf2_couchbase_bundle", "get_all_docs", array("stale" => false));
         #var_dump($res);

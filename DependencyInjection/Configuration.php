@@ -23,6 +23,39 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->booleanNode('profiler_enabled')->defaultValue(false)->end()
+                ->arrayNode('connections')
+                    ->isRequired()
+                    ->requiresAtLeastOneElement()
+                    ->useAttributeAsKey('name')
+                    ->prototype('array')
+                        ->children()
+                            ->scalarNode('host')
+                                ->cannotBeEmpty()
+                                ->defaultValue('localhost')
+                            ->end()
+
+                            ->integerNode('port')
+                                ->cannotBeEmpty()
+                                ->defaultValue('8091')
+                            ->end()
+
+                            ->scalarNode('username')
+                            ->end()
+
+                            ->scalarNode('password')
+                            ->end()
+
+                            ->scalarNode('bucket')
+                                ->isRequired()
+                                ->cannotBeEmpty()
+                            ->end()
+
+                            ->booleanNode('persistent')
+                                ->defaultValue(true)
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
             ->end();
 
         return $treeBuilder;

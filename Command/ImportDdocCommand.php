@@ -21,6 +21,12 @@ class ImportDdocCommand extends ContainerAwareCommand
             ->setName("couchbase:import-ddoc")
             ->setDescription("Import the design documents for your couchbase installation")
             ->addArgument(
+                "connection",
+                InputArgument::REQUIRED,
+                "The couchbase-connection this change should be applied to.",
+                null
+            )
+            ->addArgument(
                 "path",
                 InputArgument::OPTIONAL,
                 "Where are your design documents (*.ddoc) located (relative to %kernel.root_dir%)?",
@@ -34,7 +40,7 @@ class ImportDdocCommand extends ContainerAwareCommand
         $path = $this->getContainer()->getParameter('kernel.root_dir') . DIRECTORY_SEPARATOR
             . $input->getArgument("path");
 
-        $this->couchbase = $this->getContainer()->get("couchbase");
+        $this->couchbase = $this->getContainer()->get("couchbase.{$input->getArgument('connection')}");
 
         try {
             $iterator = new \DirectoryIterator($path);

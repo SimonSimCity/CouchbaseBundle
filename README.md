@@ -35,15 +35,25 @@ public function registerBundles()
 }
 ```
 
-To configure the couchbase-cluster, you want to use in your application, please adjust the parameters as needed. Here's
-a list of the available parameters and their default-value:
+To configure the couchbase-cluster, you want to use in your application, please adjust the settings for the extension as
+needed. Here's a sample-configuration for a service called `couchbase.foo` and `couchbase.bar`:
 
 ```yaml
-couchbase.host: localhost
-couchbase.username:
-couchbase.password:
-couchbase.bucket:
-couchbase.persistent: true
+simonsimcity_couchbase:
+    connection:
+        foo:
+            host: localhost
+            username: username
+            password: password
+            bucket: foo
+            persistent: true
+        # bar uses all possible default-values:
+        bar:
+            #host: localhost
+            #username:
+            #password:
+            bucket: bar
+            #persistent: true
 ```
 
 **Info:** Currently it's just possible to have one instance of Couchbase running at the same time. Feel free to create a
@@ -60,6 +70,8 @@ You should see a couple of new methods in your symfony console:
 
 When importing documents from the filesystem to the database, it additionally checks if the folder, you defined, also
 contains a folder having the same name as your environment. If found, the documents in there are imported as well.
+If the name of the folder for design-documents contains the characters `{connection}`, they are replaced by the name of
+the selected couchbase-connection.
 
 More to come ...
 
@@ -76,17 +88,17 @@ function (doc, meta) {
 
 **Example usage**
 
-    app/console couchbase:export-ddoc
-Will save all design-documents, found in couchbase, to the folder app/Resouces/ in files having the file-extension *.ddoc*
+    app/console couchbase:export-ddoc foo
+Will save all design-documents, found in the couchbase-definition `foo`, to the folder app/Resouces/foo/ in files having the file-extension *.ddoc*
 
-    app/console couchbase:import-ddoc -e test
-Will import all files found in app/Resouces/\*.ddoc and  app/Resouces/test/\*.ddoc
+    app/console couchbase:import-ddoc -e test foo
+Will import all files found in app/Resouces/foo/\*.ddoc and  app/Resouces/foo/test/\*.ddoc
 
-    app/console couchbase:export-docs data/
-Will export all documents of your cluster to app/data/
+    app/console couchbase:export-docs foo data/
+Will export all documents of your `foo` bucket to app/data/
 
-    app/console couchbase:import-docs data/
-Will import all files, having the extension ".json" into your defined couchbase-bucket
+    app/console couchbase:import-docs foo data/
+Will import all files, having the extension ".json" into your defined `foo` couchbase-bucket
 
 ## Using the profiler for Couchbase
 

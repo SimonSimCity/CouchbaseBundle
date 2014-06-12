@@ -5,14 +5,13 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="couchbase" class="Simonsimcity\CouchbaseBundle\Wrapper\Couchbase" lazy="true">
-            <argument>%couchbase.host%</argument>
-            <argument>%couchbase.username%</argument>
-            <argument>%couchbase.password%</argument>
-            <argument>%couchbase.bucket%</argument>
-            <argument>%couchbase.persistent%</argument>
+        <service id="couchbase" class="Simonsimcity\CouchbaseBundle\Wrapper\Couchbase" lazy="true" abstract="true">
+            <argument />
+            <argument />
+            <argument />
+            <argument />
+            <argument />
             <argument type="service" id="debug.stopwatch" on-invalid="ignore" />
         </service>
     </services>
-
 </container>

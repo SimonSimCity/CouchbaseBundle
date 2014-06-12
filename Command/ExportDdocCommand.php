@@ -15,10 +15,16 @@ class ExportDdocCommand extends ContainerAwareCommand
             ->setName("couchbase:export-ddoc")
             ->setDescription("Exports the design documents for your couchbase installation")
             ->addArgument(
+                "connection",
+                InputArgument::REQUIRED,
+                "The couchbase-connection this change should be applied to.",
+                null
+            )
+            ->addArgument(
                 "path",
                 InputArgument::OPTIONAL,
                 "Where should your design documents (*.ddoc) be located (relative to %kernel.root_dir%)?",
-                "Resources/couchbase/"
+                "Resources/couchbase/{connection}/"
             );
     }
 
@@ -28,7 +34,12 @@ class ExportDdocCommand extends ContainerAwareCommand
         $path = $this->getContainer()->getParameter('kernel.root_dir') . DIRECTORY_SEPARATOR
             . $input->getArgument("path");
 
-        $couchbase = $this->getContainer()->get("couchbase");
+        $path = str_replace("{connection}", $input->getArgument('connection'), $path);
+        if (!is_dir($path)) {
+            mkdir($path, 0777, true);
+        }
+
+        $couchbase = $this->getContainer()->get("couchbase.{$input->getArgument('connection')}");
         /** @var \Couchbase $couchbase */
 
         // Remove all .ddoc files in the directory
