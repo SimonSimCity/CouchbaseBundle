@@ -40,9 +40,11 @@ class Configuration implements ConfigurationInterface
                             ->end()
 
                             ->scalarNode('username')
+						        ->defaultNull()
                             ->end()
 
                             ->scalarNode('password')
+						        ->defaultNull()
                             ->end()
 
                             ->scalarNode('bucket')
@@ -51,7 +53,7 @@ class Configuration implements ConfigurationInterface
                             ->end()
 
                             ->booleanNode('persistent')
-                                ->defaultValue(true)
+                                ->defaultTrue()
                             ->end()
                         ->end()
                     ->end()
