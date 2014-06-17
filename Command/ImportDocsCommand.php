@@ -25,7 +25,7 @@ class ImportDocsCommand extends ContainerAwareCommand
                 "path",
                 InputArgument::OPTIONAL,
                 "Where are your documents (*.json) located (relative to %kernel.root_dir%)?",
-                "Resources/couchbase/"
+                "Resources/couchbase/{connection}/"
             );
     }
 
@@ -35,6 +35,7 @@ class ImportDocsCommand extends ContainerAwareCommand
         $path = $this->getContainer()->getParameter('kernel.root_dir') . DIRECTORY_SEPARATOR
             . $input->getArgument("path");
 
+	    $path = str_replace("{connection}", $input->getArgument('connection'), $path);
         $couchbase = $this->getContainer()->get("couchbase.{$input->getArgument('connection')}");
 
         $res = $couchbase->view("sf2_couchbase_bundle", "get_all_docs", array("stale" => false));
