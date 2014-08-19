@@ -99,7 +99,8 @@ class Couchbase extends \Couchbase
      */
     function add($id, $document, $expiry = 0, $persist_to = 0, $replicate_to = 0)
     {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
@@ -107,7 +108,8 @@ class Couchbase extends \Couchbase
      */
     function set($id, $document, $expiry = 0, $cas = "", $persist_to = 0, $replicate_to = 0)
     {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
@@ -115,7 +117,8 @@ class Couchbase extends \Couchbase
      */
     function replace($id, $document, $expiry = 0, $cas = "", $persist_to = 0, $replicate_to = 0)
     {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
@@ -123,7 +126,8 @@ class Couchbase extends \Couchbase
      */
     function prepend($id, $document, $expiry = 0, $cas = "", $persist_to = 0, $replicate_to = 0)
     {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
@@ -131,7 +135,8 @@ class Couchbase extends \Couchbase
      */
     function append($id, $document, $expiry = 0, $cas = "", $persist_to = 0, $replicate_to = 0)
     {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
@@ -139,7 +144,8 @@ class Couchbase extends \Couchbase
      */
     function cas($cas, $id, $document, $expiry = null)
     {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
@@ -147,7 +153,8 @@ class Couchbase extends \Couchbase
      */
     function get($id, $callback = null, &$cas = "")
     {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
@@ -155,7 +162,8 @@ class Couchbase extends \Couchbase
      */
     function setMulti(array $documents, $expiry = 0, $persist_to = 0, $replicate_to = 0)
     {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
@@ -163,12 +171,14 @@ class Couchbase extends \Couchbase
      */
     function getMulti(array $ids, array &$cas = array(), $flags = 0)
     {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     function getReplica($id, $strategy = COUCHBASE_REPLICA_FIRST)
     {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
@@ -176,7 +186,8 @@ class Couchbase extends \Couchbase
      */
     function getAndLock($id, &$cas = "", $expiry = 0)
     {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
@@ -184,7 +195,8 @@ class Couchbase extends \Couchbase
      */
     function getAndLockMulti(array $ids, array &$cas = array(), $flags = 0, $expiry = 0)
     {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
@@ -192,7 +204,8 @@ class Couchbase extends \Couchbase
      */
     function getAndTouchMulti(array $ids, $expiry = 0, array &$cas = array())
     {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
@@ -200,7 +213,8 @@ class Couchbase extends \Couchbase
      */
     function getAndTouch($id, $expiry = 0, &$cas = "")
     {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
@@ -208,7 +222,8 @@ class Couchbase extends \Couchbase
      */
     function unlock($id, $cas)
     {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
@@ -216,7 +231,8 @@ class Couchbase extends \Couchbase
      */
     function touch($id, $expiry)
     {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
@@ -224,12 +240,14 @@ class Couchbase extends \Couchbase
      */
     function touchMulti(array $ids, $expiry)
     {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     function delete($id, $cas = "", $persist_to = 0, $replicate_to = 0)
     {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
@@ -237,7 +255,8 @@ class Couchbase extends \Couchbase
      */
     function increment($id, $delta = 1, $create = false, $expire = 0, $initial = 0)
     {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
@@ -245,7 +264,8 @@ class Couchbase extends \Couchbase
      */
     function decrement($id, $delta = 1, $create = false, $expire = 0, $initial = 0)
     {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
@@ -253,7 +273,8 @@ class Couchbase extends \Couchbase
      */
     function flush()
     {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
@@ -261,7 +282,8 @@ class Couchbase extends \Couchbase
      */
     function getDelayed(array $ids, $with_cas = false, $callback = null, $expiry = 0, $lock = false)
     {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
@@ -269,7 +291,8 @@ class Couchbase extends \Couchbase
      */
     function fetch()
     {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
@@ -277,7 +300,8 @@ class Couchbase extends \Couchbase
      */
     function fetchAll()
     {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
@@ -285,7 +309,8 @@ class Couchbase extends \Couchbase
      */
     function view($document, $view = "", array $options = array(), $return_errors = false)
     {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
@@ -293,70 +318,80 @@ class Couchbase extends \Couchbase
      */
     function viewGenQuery($document, $view = "", array $options = array(), $return_errors = false)
     {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
      * {@inheritdoc}
      */
     function getStats() {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
      * {@inheritdoc}
      */
     function getResultCode() {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
      * {@inheritdoc}
      */
     function getResultMessage() {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
      * {@inheritdoc}
      */
     function setOption($option, $value) {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
      * {@inheritdoc}
      */
     function getOption($option) {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
      * {@inheritdoc}
      */
     function getVersion($resource) {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
      * {@inheritdoc}
      */
     function getClientVersion() {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
      * {@inheritdoc}
      */
     function getNumReplicas() {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
      * {@inheritdoc}
      */
     function getServers() {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
@@ -364,7 +399,8 @@ class Couchbase extends \Couchbase
      */
     function observe($id, $cas, &$details = array())
     {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
@@ -372,7 +408,8 @@ class Couchbase extends \Couchbase
      */
     function observeMulti(array $ids, &$details = array())
     {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
@@ -380,7 +417,8 @@ class Couchbase extends \Couchbase
      */
     function keyDurability($id, $cas, array $details = array())
     {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
@@ -388,7 +426,8 @@ class Couchbase extends \Couchbase
      */
     function keyDurabilityMulti(array $ids, array $details = array())
     {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
@@ -396,7 +435,8 @@ class Couchbase extends \Couchbase
      */
     function getTimeout()
     {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
@@ -404,7 +444,8 @@ class Couchbase extends \Couchbase
      */
     function setTimeout($timeout)
     {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
@@ -412,7 +453,8 @@ class Couchbase extends \Couchbase
      */
     function getDesignDoc($name)
     {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
@@ -420,7 +462,8 @@ class Couchbase extends \Couchbase
      */
     function setDesignDoc($name, $document)
     {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
@@ -428,7 +471,8 @@ class Couchbase extends \Couchbase
      */
     function deleteDesignDoc($name)
     {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
@@ -436,6 +480,7 @@ class Couchbase extends \Couchbase
      */
     function listDesignDocs()
     {
-        return $this->call(__FUNCTION__, func_get_args());
+	    $stack = debug_backtrace();
+	    return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 }
