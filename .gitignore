@@ -1,0 +1,6 @@
+!.gitkeep
+
+/vendor/
+
+# Configuration files
+/phpunit.xml

@@ -2,7 +2,6 @@
 
 namespace Simonsimcity\CouchbaseBundle\Command;
 
-
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -36,9 +35,13 @@ class ExportDocsCommand extends ContainerAwareCommand
             . $input->getArgument("path");
 
 	    $path = str_replace("{connection}", $input->getArgument('connection'), $path);
-        $couchbase = $this->getContainer()->get("couchbase.{$input->getArgument('connection')}");
+        $couchbase = $this->getContainer()->get("couchbase.bucket.{$input->getArgument('connection')}");
+        /** @var \CouchbaseBucket $couchbase */
 
-        $res = $couchbase->view("sf2_couchbase_bundle", "get_all_docs", array("stale" => false));
+        $res = $couchbase->query(
+            \CouchbaseViewQuery::from("sf2_couchbase_bundle", "get_all_docs")
+                ->stale(false)
+        );
 
         foreach ($res['rows'] as $data)
             file_put_contents($path . $data['id'] . ".json", $couchbase->get($data['id']));

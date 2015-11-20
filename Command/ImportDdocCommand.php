@@ -2,7 +2,6 @@
 
 namespace Simonsimcity\CouchbaseBundle\Command;
 
-
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -11,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ImportDdocCommand extends ContainerAwareCommand
 {
     /**
-     * @var \Couchbase
+     * @var \CouchbaseBucket
      */
     private $couchbase;
 
@@ -41,7 +40,7 @@ class ImportDdocCommand extends ContainerAwareCommand
             . $input->getArgument("path");
 
 	    $path = str_replace("{connection}", $input->getArgument('connection'), $path);
-        $this->couchbase = $this->getContainer()->get("couchbase.{$input->getArgument('connection')}");
+        $this->couchbase = $this->getContainer()->get("couchbase.bucket.{$input->getArgument('connection')}");
 
         try {
             $iterator = new \DirectoryIterator($path);
@@ -65,7 +64,7 @@ class ImportDdocCommand extends ContainerAwareCommand
         foreach ($iterator as $fileInfo) {
             if ($fileInfo->isFile() && $fileInfo->getExtension() === "ddoc") {
 
-                $res = $this->couchbase->setDesignDoc(
+                $res = $this->couchbase->manager()->upsertDesignDocument(
                     $fileInfo->getBasename(".ddoc"),
                     file_get_contents($fileInfo->getRealPath())
                 );

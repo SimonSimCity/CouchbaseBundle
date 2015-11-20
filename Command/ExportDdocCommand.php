@@ -39,8 +39,8 @@ class ExportDdocCommand extends ContainerAwareCommand
             mkdir($path, 0777, true);
         }
 
-        $couchbase = $this->getContainer()->get("couchbase.{$input->getArgument('connection')}");
-        /** @var \Couchbase $couchbase */
+        $couchbase = $this->getContainer()->get("couchbase.bucket.{$input->getArgument('connection')}");
+        /** @var \CouchbaseBucket $couchbase */
 
         // Remove all .ddoc files in the directory
         $iterator = new \DirectoryIterator($path);
@@ -51,7 +51,7 @@ class ExportDdocCommand extends ContainerAwareCommand
             }
         }
 
-        $res = json_decode($couchbase->listDesignDocs(), true);
+        $res = json_decode($couchbase->manager()->getDesignDocuments(), true);
         foreach ($res['rows'] as $ddoc) {
 
             $ddocId = $ddoc['doc']['meta']['id'];

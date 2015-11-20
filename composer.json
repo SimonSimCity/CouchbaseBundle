@@ -11,8 +11,11 @@
         }
     ],
     "require": {
-        "ext-couchbase": "*",
-        "symfony/framework-bundle": "~2.1"
+        "ext-couchbase": "~2.0",
+        "symfony/framework-bundle": "~2.6"
+    },
+    "suggest": {
+        "nickcuper/couchbase-stub": "@dev"
     },
     "autoload": {
         "psr-0": { "Simonsimcity\\CouchbaseBundle": "" }

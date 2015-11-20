@@ -5,6 +5,7 @@ namespace Simonsimcity\CouchbaseBundle\DependencyInjection;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 
@@ -30,24 +31,45 @@ class SimonsimcityCouchbaseExtension extends Extension
             $loader->load('services_profiler_enabled.xml');
         }
 
-        foreach($config['connections'] as $id => $connection) {
-            $this->createCouchbaseDefinition($container, $id, $connection);
+        foreach($config['cluster'] as $id => $connection) {
+            $this->createCouchbaseClusterDefinition($container, $id, $connection);
         }
     }
 
-    private function createCouchbaseDefinition(ContainerBuilder $container, $id, $configuration)
+    private function createCouchbaseClusterDefinition(ContainerBuilder $container, $id, $configuration)
     {
-        $provider = 'couchbase.' . $id;
+        $provider = 'couchbase.cluster.' . $id;
         $container
             ->setDefinition(
                 $provider,
-                new DefinitionDecorator('couchbase')
+                new DefinitionDecorator('couchbase.cluster')
             )
-            ->replaceArgument(0, $configuration['host'])
+            ->replaceArgument(0, $configuration['dsn'])
             ->replaceArgument(1, $configuration['username'])
             ->replaceArgument(2, $configuration['password'])
-            ->replaceArgument(3, $configuration['bucket'])
-            ->replaceArgument(4, $configuration['persistent'])
+        ;
+
+        foreach($configuration['buckets'] as $id => $connection) {
+            $this->createCouchbaseBucketDefinition($container, $id, $connection, $provider);
+        }
+    }
+
+    private function createCouchbaseBucketDefinition(ContainerBuilder $container, $id, $configuration, $clusterId)
+    {
+        $provider = 'couchbase.bucket.' . $id;
+        $container
+            ->setDefinition(
+                $provider,
+                new DefinitionDecorator('couchbase.bucket')
+            )
+            ->setFactory(
+                array(
+                    new Reference($clusterId),
+                    'openBucket'
+                )
+            )
+            ->replaceArgument(0, $configuration['name'])
+            ->replaceArgument(1, $configuration['password'])
         ;
     }
 }

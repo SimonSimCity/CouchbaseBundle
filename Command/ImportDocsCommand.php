@@ -2,7 +2,6 @@
 
 namespace Simonsimcity\CouchbaseBundle\Command;
 
-
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -33,15 +32,19 @@ class ImportDocsCommand extends ContainerAwareCommand
     {
         // Absolute path to the design-documents
         $path = $this->getContainer()->getParameter('kernel.root_dir') . DIRECTORY_SEPARATOR
-            . $input->getArgument("path");
+                . $input->getArgument("path");
 
-	    $path = str_replace("{connection}", $input->getArgument('connection'), $path);
-        $couchbase = $this->getContainer()->get("couchbase.{$input->getArgument('connection')}");
+        $path = str_replace("{connection}", $input->getArgument('connection'), $path);
+        $couchbase = $this->getContainer()->get("couchbase.bucket.{$input->getArgument('connection')}");
+        /** @var \CouchbaseBucket $couchbase */
 
-        $res = $couchbase->view("sf2_couchbase_bundle", "get_all_docs", array("stale" => false));
-        #var_dump($res);
+        $res = $couchbase->query(
+            \CouchbaseViewQuery::from("sf2_couchbase_bundle", "get_all_docs")
+                               ->stale(\CouchbaseViewQuery::UPDATE_BEFORE)
+        );
+
         foreach ($res['rows'] as $data)
-            $couchbase->delete($data['id']);
+            $couchbase->remove($data['id']);
 
         $data = array();
         $dir = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
@@ -53,7 +56,27 @@ class ImportDocsCommand extends ContainerAwareCommand
             }
         }
 
-        if (!empty($data))
-            $couchbase->setMulti($data);
+        if (!empty($data)) {
+            $results = $couchbase->insert( $data );
+
+            $success = 0;
+            foreach($results as $key => $result)
+            {
+                if (!empty($result->error))
+                {
+                    $output->writeln("<error>{$key} {$result->error}</error>");
+                }
+                else
+                {
+                    $success++;
+                }
+            }
+
+            $output->writeln("<info>{$success} documents created.</info>");
+        }
+        else
+        {
+            $output->writeln("<info>No documents found.</info>");
+        }
     }
 }

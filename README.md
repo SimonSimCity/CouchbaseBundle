@@ -5,6 +5,8 @@ This bundle creates a Symfony2 integration for Couchbase. It currently adds comm
 automate import and export of design documents, stored in Couchbase and adds all Couchbase actions to the timeline in
 the Symfony2 profiler.
 
+It requires the pecl module for couchbase in 2.0 or later.
+
 ## Installation
 
 Require [`simonsimcity/couchbase-bundle`](https://packagist.org/packages/simonsimcity/couchbase-bundle)
@@ -36,28 +38,25 @@ public function registerBundles()
 ```
 
 To configure the couchbase-cluster, you want to use in your application, please adjust the settings for the extension as
-needed. Here's a sample-configuration for a service called `couchbase.foo` and `couchbase.bar`:
+needed. Here's a sample-configuration for two buckets (`foo` and `bar`) on a local cluster (the cluster available as a
+service called `couchbase.cluster.main`) by the service names `couchbase.bucket.main_foo` and `couchbase.bucket.bar`,
+where the second bucket is secured by the password `123`:
 
 ```yaml
 simonsimcity_couchbase:
-    connection:
-        foo:
-            host: localhost
-            username: username
-            password: password
-            bucket: foo
-            persistent: true
-        # bar uses all possible default-values:
-        bar:
-            #host: localhost
-            #username:
-            #password:
-            bucket: bar
-            #persistent: true
-```
+    cluster:
+        main:
+            dsn: http://127.0.0.1/
+            username: root
+            password: foo
 
-**Info:** Currently it's just possible to have one instance of Couchbase running at the same time. Feel free to create a
-pull-request if you need to support more.
+            buckets:
+                main_foo:
+                    name: foo
+                bar:
+                    name: bar
+                    password: 123
+```
 
 ## Using commands
 
@@ -77,8 +76,8 @@ More to come ...
 
 **Setup**
 
-In order to use the command couchbase:import-docs, you first have to create a view called "get_all_docs" in a document
-called "sf2_couchbase_bundle" whose map-function looks just like this:
+In order to use the command couchbase:import-docs, you first have to create a view called `get_all_docs` in a document
+called `sf2_couchbase_bundle` whose map-function looks just like this:
 
 ```javascript
 function (doc, meta) {
@@ -89,16 +88,19 @@ function (doc, meta) {
 **Example usage**
 
     app/console couchbase:export-ddoc foo
-Will save all design-documents, found in the couchbase-definition `foo`, to the folder app/Resouces/foo/ in files having the file-extension *.ddoc*
+Will save all design-documents, found in the couchbase-definition `foo`, to the folder `app/Resouces/foo/` in files
+having the file-extension `.ddoc`
 
     app/console couchbase:import-ddoc -e test foo
-Will import all files found in app/Resouces/foo/\*.ddoc and  app/Resouces/foo/test/\*.ddoc
+Will import all files found in `app/Resouces/foo/\*.ddoc` and  `app/Resouces/foo/test/\*.ddoc`. My recommendation is to
+create a file called `sf2_couchbase_bundle.ddoc` in the `test` folder so you'll always have that view available in your
+test environment.
 
     app/console couchbase:export-docs foo data/
-Will export all documents of your `foo` bucket to app/data/
+Will export all documents of your `foo` bucket to `app/data/`
 
     app/console couchbase:import-docs foo data/
-Will import all files, having the extension ".json" into your defined `foo` couchbase-bucket
+Will import all files, having the extension `.json` into your defined `foo` couchbase-bucket
 
 ## Using the profiler for Couchbase
 
@@ -109,4 +111,4 @@ simonsimcity_couchbase:
     profiler_enabled: true
 ```
 
-My personal recommendation is to add these lines to your [`config_dev.yml`] file.
+My personal recommendation is to add these lines to your `config_dev.yml` file.
