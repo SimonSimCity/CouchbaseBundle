@@ -40,10 +40,10 @@ class ExportDocsCommand extends ContainerAwareCommand
 
         $res = $couchbase->query(
             \CouchbaseViewQuery::from("sf2_couchbase_bundle", "get_all_docs")
-                ->stale(false)
+                ->stale(\CouchbaseViewQuery::UPDATE_BEFORE)
         );
 
         foreach ($res['rows'] as $data)
-            file_put_contents($path . $data['id'] . ".json", $couchbase->get($data['id']));
+            file_put_contents($path . $data['id'] . ".json", $couchbase->get($data['id'])->value);
     }
 }

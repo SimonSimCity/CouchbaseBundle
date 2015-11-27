@@ -51,23 +51,14 @@ class ExportDdocCommand extends ContainerAwareCommand
             }
         }
 
-        $res = json_decode($couchbase->manager()->getDesignDocuments(), true);
-        foreach ($res['rows'] as $ddoc) {
+        foreach ($couchbase->manager()->getDesignDocuments() as $ddocName => $ddocContent) {
 
-            $ddocId = $ddoc['doc']['meta']['id'];
-            if (strpos($ddocId, "_design/") !== 0) {
-                $output->writeln("<comment>Unknown document-type: {$ddocId}</comment>");
-                continue;
-            }
-
-            $ddocName = substr($ddocId, 8);
             if (strpos($ddocName, "dev_") === 0) {
-                $output->writeln("<comment>Skip dev-ddoc: {$ddocName}</comment>", OutputInterface::VERBOSITY_VERBOSE);
+                $output->writeln("<comment>Ignored: {$ddocName}</comment>", OutputInterface::VERBOSITY_VERBOSE);
                 continue;
             }
 
-            $ddocContent = json_encode($ddoc['doc']['json']);
-            file_put_contents($path . $ddocName . ".ddoc", $ddocContent);
+            file_put_contents($path . $ddocName . ".ddoc", json_encode($ddocContent));
             $output->writeln("<info>Exported: {$ddocName}</info>");
         }
     }

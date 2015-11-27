@@ -49,19 +49,12 @@ class ImportDocsCommand extends ContainerAwareCommand
         $data = array();
         $dir = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
 
+        $success = 0;
         /** @var \SplFileInfo $node */
         foreach ($dir as $node) {
             if ($node->isFile() && $node->getExtension() === "json") {
-                $data[$node->getBasename('.json')] = file_get_contents($node->getRealPath());
-            }
-        }
+                $result = $couchbase->upsert($node->getBasename('.json'), file_get_contents($node->getRealPath()));
 
-        if (!empty($data)) {
-            $results = $couchbase->insert( $data );
-
-            $success = 0;
-            foreach($results as $key => $result)
-            {
                 if (!empty($result->error))
                 {
                     $output->writeln("<error>{$key} {$result->error}</error>");
@@ -71,12 +64,8 @@ class ImportDocsCommand extends ContainerAwareCommand
                     $success++;
                 }
             }
+        }
 
-            $output->writeln("<info>{$success} documents created.</info>");
-        }
-        else
-        {
-            $output->writeln("<info>No documents found.</info>");
-        }
+        $output->writeln("<info>{$success} documents created.</info>");
     }
 }
