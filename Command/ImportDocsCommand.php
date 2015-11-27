@@ -31,10 +31,10 @@ class ImportDocsCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         // Absolute path to the design-documents
-        $path = $this->getContainer()->getParameter('kernel.root_dir') . DIRECTORY_SEPARATOR
-                . $input->getArgument("path");
+        $path = $this->getContainer()->getParameter('kernel.root_dir').DIRECTORY_SEPARATOR
+                .$input->getArgument("path");
 
-        $path = str_replace("{connection}", $input->getArgument('connection'), $path);
+        $path      = str_replace("{connection}", $input->getArgument('connection'), $path);
         $couchbase = $this->getContainer()->get("couchbase.bucket.{$input->getArgument('connection')}");
         /** @var \CouchbaseBucket $couchbase */
 
@@ -43,11 +43,12 @@ class ImportDocsCommand extends ContainerAwareCommand
                                ->stale(\CouchbaseViewQuery::UPDATE_BEFORE)
         );
 
-        foreach ($res['rows'] as $data)
+        foreach ($res['rows'] as $data) {
             $couchbase->remove($data['id']);
+        }
 
         $data = array();
-        $dir = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
+        $dir  = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
 
         $success = 0;
         /** @var \SplFileInfo $node */
@@ -55,12 +56,9 @@ class ImportDocsCommand extends ContainerAwareCommand
             if ($node->isFile() && $node->getExtension() === "json") {
                 $result = $couchbase->upsert($node->getBasename('.json'), file_get_contents($node->getRealPath()));
 
-                if (!empty($result->error))
-                {
+                if ( ! empty($result->error)) {
                     $output->writeln("<error>{$key} {$result->error}</error>");
-                }
-                else
-                {
+                } else {
                     $success++;
                 }
             }

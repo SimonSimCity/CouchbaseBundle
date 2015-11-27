@@ -1,19 +1,19 @@
 <?xml version="1.0" ?>
 
 <container xmlns="http://symfony.com/schema/dic/services"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
         <service id="couchbase.bucket" class="CouchbaseBucket" lazy="true" abstract="true">
-            <argument />
-            <argument />
+            <argument/>
+            <argument/>
         </service>
 
         <service id="couchbase.cluster" class="CouchbaseCluster" lazy="true" abstract="true">
-            <argument />
-            <argument />
-            <argument />
+            <argument/>
+            <argument/>
+            <argument/>
         </service>
     </services>
 </container>

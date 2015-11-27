@@ -22,7 +22,7 @@ class SimonsimcityCouchbaseExtension extends Extension
     public function load(array $configs, ContainerBuilder $container)
     {
         $configuration = new Configuration();
-        $config = $this->processConfiguration($configuration, $configs);
+        $config        = $this->processConfiguration($configuration, $configs);
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
@@ -31,14 +31,14 @@ class SimonsimcityCouchbaseExtension extends Extension
             $loader->load('services_profiler_enabled.xml');
         }
 
-        foreach($config['cluster'] as $id => $connection) {
+        foreach ($config['cluster'] as $id => $connection) {
             $this->createCouchbaseClusterDefinition($container, $id, $connection);
         }
     }
 
     private function createCouchbaseClusterDefinition(ContainerBuilder $container, $id, $configuration)
     {
-        $provider = 'couchbase.cluster.' . $id;
+        $provider = 'couchbase.cluster.'.$id;
         $container
             ->setDefinition(
                 $provider,
@@ -46,17 +46,16 @@ class SimonsimcityCouchbaseExtension extends Extension
             )
             ->replaceArgument(0, $configuration['dsn'])
             ->replaceArgument(1, $configuration['username'])
-            ->replaceArgument(2, $configuration['password'])
-        ;
+            ->replaceArgument(2, $configuration['password']);
 
-        foreach($configuration['buckets'] as $id => $connection) {
+        foreach ($configuration['buckets'] as $id => $connection) {
             $this->createCouchbaseBucketDefinition($container, $id, $connection, $provider);
         }
     }
 
     private function createCouchbaseBucketDefinition(ContainerBuilder $container, $id, $configuration, $clusterId)
     {
-        $provider = 'couchbase.bucket.' . $id;
+        $provider = 'couchbase.bucket.'.$id;
         $container
             ->setDefinition(
                 $provider,
@@ -65,11 +64,10 @@ class SimonsimcityCouchbaseExtension extends Extension
             ->setFactory(
                 array(
                     new Reference($clusterId),
-                    'openBucket'
+                    'openBucket',
                 )
             )
             ->replaceArgument(0, $configuration['name'])
-            ->replaceArgument(1, $configuration['password'])
-        ;
+            ->replaceArgument(1, $configuration['password']);
     }
 }

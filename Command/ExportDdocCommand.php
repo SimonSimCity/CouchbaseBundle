@@ -31,11 +31,11 @@ class ExportDdocCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         // Absolute path to the design-documents
-        $path = $this->getContainer()->getParameter('kernel.root_dir') . DIRECTORY_SEPARATOR
-            . $input->getArgument("path");
+        $path = $this->getContainer()->getParameter('kernel.root_dir').DIRECTORY_SEPARATOR
+                .$input->getArgument("path");
 
         $path = str_replace("{connection}", $input->getArgument('connection'), $path);
-        if (!is_dir($path)) {
+        if ( ! is_dir($path)) {
             mkdir($path, 0777, true);
         }
 
@@ -58,7 +58,7 @@ class ExportDdocCommand extends ContainerAwareCommand
                 continue;
             }
 
-            file_put_contents($path . $ddocName . ".ddoc", json_encode($ddocContent));
+            file_put_contents($path.$ddocName.".ddoc", json_encode($ddocContent));
             $output->writeln("<info>Exported: {$ddocName}</info>");
         }
     }

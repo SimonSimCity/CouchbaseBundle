@@ -18,7 +18,7 @@ class CouchbaseBucket extends \CouchbaseBucket
         Stopwatch $stopwatch
     ) {
         $this->stopwatch = $stopwatch;
-        $this->bucket = $bucket;
+        $this->bucket    = $bucket;
     }
 
     private function call($method, $arguments = array())
@@ -39,12 +39,12 @@ class CouchbaseBucket extends \CouchbaseBucket
             case "unlock":
             case "_view":
             case "_n1ql":
-            // TODO: Find a way to report queries here.
-            //case "query":
+                // TODO: Find a way to report queries here.
+                //case "query":
             case "setTranscoder":
-                $name = $method . ": " .
+                $name = $method.": ".
                         (
-                            is_array($arguments[0]) ?
+                        is_array($arguments[0]) ?
                             implode(", ", array_keys($arguments[0])) :
                             $arguments[0]
                         );
@@ -71,152 +71,190 @@ class CouchbaseBucket extends \CouchbaseBucket
     /**
      * {@inheritdoc}
      */
-    public function manager() {
+    public function manager()
+    {
         $stack = debug_backtrace();
+
         return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function enableN1ql($hosts) {
+    public function enableN1ql($hosts)
+    {
         $stack = debug_backtrace();
+
         return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function insert($ids, $val = NULL, $options = array()) {
+    public function insert($ids, $val = null, $options = array())
+    {
         $stack = debug_backtrace();
+
         return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function upsert($ids, $val = NULL, $options = array()) {
+    public function upsert($ids, $val = null, $options = array())
+    {
         $stack = debug_backtrace();
+
         return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function replace($ids, $val = NULL, $options = array()) {
+    public function replace($ids, $val = null, $options = array())
+    {
         $stack = debug_backtrace();
+
         return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function append($ids, $val = NULL, $options = array()) {
+    public function append($ids, $val = null, $options = array())
+    {
         $stack = debug_backtrace();
+
         return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function prepend($ids, $val = NULL, $options = array()) {
+    public function prepend($ids, $val = null, $options = array())
+    {
         $stack = debug_backtrace();
+
         return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function remove($ids, $options = array()) {
+    public function remove($ids, $options = array())
+    {
         $stack = debug_backtrace();
+
         return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function get($ids, $options = array()) {
+    public function get($ids, $options = array())
+    {
         $stack = debug_backtrace();
+
         return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getAndTouch($id, $expiry, $options = array()) {
+    public function getAndTouch($id, $expiry, $options = array())
+    {
         $stack = debug_backtrace();
+
         return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getAndLock($id, $lockTime, $options = array()) {
+    public function getAndLock($id, $lockTime, $options = array())
+    {
         $stack = debug_backtrace();
+
         return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getFromReplica($id, $options = array()) {
+    public function getFromReplica($id, $options = array())
+    {
         $stack = debug_backtrace();
+
         return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function touch($id, $expiry, $options = array()) {
+    public function touch($id, $expiry, $options = array())
+    {
         $stack = debug_backtrace();
+
         return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function counter($ids, $delta, $options = array()) {
+    public function counter($ids, $delta, $options = array())
+    {
         $stack = debug_backtrace();
+
         return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function unlock($ids, $options = array()) {
+    public function unlock($ids, $options = array())
+    {
         $stack = debug_backtrace();
+
         return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function _view($queryObj) {
+    public function _view($queryObj)
+    {
         $stack = debug_backtrace();
+
         return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function _n1ql($queryObj) {
+    public function _n1ql($queryObj)
+    {
         $stack = debug_backtrace();
+
         return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function query($query) {
+    public function query($query)
+    {
         $stack = debug_backtrace();
+
         return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setTranscoder($encoder, $decoder) {
+    public function setTranscoder($encoder, $decoder)
+    {
         $stack = debug_backtrace();
+
         return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 }
