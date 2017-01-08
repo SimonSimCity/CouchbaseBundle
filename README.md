@@ -5,7 +5,7 @@ This bundle creates a Symfony2 integration for Couchbase. It currently adds comm
 automate import and export of design documents, stored in Couchbase and adds all Couchbase actions to the timeline in
 the Symfony2 profiler.
 
-It requires the pecl module for couchbase in 2.0 or later.
+It requires the pecl module for couchbase in 2.0.7.
 
 ## Installation
 
