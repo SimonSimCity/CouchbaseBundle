@@ -218,10 +218,10 @@ class CouchbaseBucket extends \CouchbaseBucket
         return $this->call(__FUNCTION__, $stack[0]["args"]);
     }
 
-    /**
+   /**
      * {@inheritdoc}
      */
-    public function _view($queryObj)
+    public function _view($queryObj, $json_asarray)
     {
         $stack = debug_backtrace();
 
@@ -231,7 +231,7 @@ class CouchbaseBucket extends \CouchbaseBucket
     /**
      * {@inheritdoc}
      */
-    public function _n1ql($queryObj)
+    public function _n1ql($queryObj, $params, $json_asarray)
     {
         $stack = debug_backtrace();
 
@@ -241,7 +241,7 @@ class CouchbaseBucket extends \CouchbaseBucket
     /**
      * {@inheritdoc}
      */
-    public function query($query)
+    public function query($query, $params = NULL, $json_asarray = false)
     {
         $stack = debug_backtrace();
 
