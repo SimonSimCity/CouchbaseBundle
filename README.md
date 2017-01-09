@@ -9,6 +9,7 @@ This bundle requires a specific version of the php-couchbase extension:
 
 | PECL version | CouchbaseBundle version |
 | --------|---------|-------|
+| 2.2.x | 2.3.0 |
 | 2.1.0 | 2.2.0 |
 | 2.0.7  | <= 2.1.1 |
 

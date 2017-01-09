@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "ext-couchbase": "2.1.0",
+        "ext-couchbase": "~2.2.0",
         "symfony/framework-bundle": "~2.6|~3.0"
     },
     "suggest": {

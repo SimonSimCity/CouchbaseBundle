@@ -231,7 +231,7 @@ class CouchbaseBucket extends \CouchbaseBucket
     /**
      * {@inheritdoc}
      */
-    public function _n1ql($queryObj, $params, $json_asarray)
+    public function _n1ql($queryObj, $json_asarray)
     {
         $stack = debug_backtrace();
 
