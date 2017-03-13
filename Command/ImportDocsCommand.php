@@ -43,8 +43,8 @@ class ImportDocsCommand extends ContainerAwareCommand
                                ->stale(\CouchbaseViewQuery::UPDATE_BEFORE)
         );
 
-        foreach ($res['rows'] as $data) {
-            $couchbase->remove($data['id']);
+        foreach ($res->rows as $data) {
+            $couchbase->remove($data->id);
         }
 
         $data = array();
