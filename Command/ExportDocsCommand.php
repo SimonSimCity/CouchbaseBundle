@@ -43,8 +43,8 @@ class ExportDocsCommand extends ContainerAwareCommand
                                ->stale(\CouchbaseViewQuery::UPDATE_BEFORE)
         );
 
-        foreach ($res['rows'] as $data) {
-            file_put_contents($path.$data['id'].".json", $couchbase->get($data['id'])->value);
+        foreach ($res->rows as $data) {
+            file_put_contents($path.$data->id.".json", $couchbase->get($data->id)->value);
         }
     }
 }
